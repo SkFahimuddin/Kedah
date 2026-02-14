@@ -94,8 +94,11 @@ const seedDatabase = async () => {
     // Create sample complaints
     console.log('📝 Creating sample complaints...');
     
+    const year = new Date().getFullYear();
+    
     const complaints = await Complaint.create([
       {
+        complaintId: `CMP-${year}-000001`,
         customerName: 'Robert Johnson',
         customerPhone: '+1234567800',
         customerEmail: 'robert@email.com',
@@ -113,6 +116,7 @@ const seedDatabase = async () => {
         createdBy: users[4]._id
       },
       {
+        complaintId: `CMP-${year}-000002`,
         customerName: 'Mary Smith',
         customerPhone: '+1234567801',
         customerEmail: 'mary@email.com',
@@ -132,6 +136,7 @@ const seedDatabase = async () => {
         createdBy: users[4]._id
       },
       {
+        complaintId: `CMP-${year}-000003`,
         customerName: 'David Williams',
         customerPhone: '+1234567802',
         accountNumber: 'ACC003',
@@ -153,6 +158,7 @@ const seedDatabase = async () => {
         createdBy: users[4]._id
       },
       {
+        complaintId: `CMP-${year}-000004`,
         customerName: 'Lisa Anderson',
         customerPhone: '+1234567803',
         accountNumber: 'ACC004',
@@ -169,6 +175,7 @@ const seedDatabase = async () => {
         createdBy: users[4]._id
       },
       {
+        complaintId: `CMP-${year}-000005`,
         customerName: 'James Brown',
         customerPhone: '+1234567804',
         accountNumber: 'ACC005',
@@ -195,6 +202,7 @@ const seedDatabase = async () => {
     
     const assets = await Asset.create([
       {
+        assetId: 'PUM-000001',
         assetName: 'Main Water Pump #1',
         assetType: 'Pump',
         category: 'Production',
@@ -224,6 +232,7 @@ const seedDatabase = async () => {
         createdBy: users[0]._id
       },
       {
+        assetId: 'TAN-000002',
         assetName: 'Storage Tank - North',
         assetType: 'Tank',
         category: 'Storage',
@@ -252,6 +261,7 @@ const seedDatabase = async () => {
         createdBy: users[0]._id
       },
       {
+        assetId: 'TRE-000003',
         assetName: 'Treatment Unit - Primary',
         assetType: 'Treatment Plant',
         category: 'Treatment',
@@ -279,6 +289,7 @@ const seedDatabase = async () => {
         createdBy: users[0]._id
       },
       {
+        assetId: 'VEH-000004',
         assetName: 'Service Vehicle #3',
         assetType: 'Vehicle',
         category: 'Transport',
@@ -296,6 +307,7 @@ const seedDatabase = async () => {
         createdBy: users[0]._id
       },
       {
+        assetId: 'GEN-000005',
         assetName: 'Backup Generator',
         assetType: 'Generator',
         category: 'Production',

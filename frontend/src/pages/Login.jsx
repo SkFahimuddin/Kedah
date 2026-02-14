@@ -7,11 +7,19 @@ import { Droplet, Loader } from 'lucide-react';
 const Login = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  // If already authenticated, redirect to dashboard
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,11 +30,43 @@ const Login = () => {
     setLoading(true);
 
     try {
+      // Try to login with backend
       await login(formData);
       toast.success('Login successful!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.error('Login error:', error);
+      
+      // If backend is not running, use demo mode
+      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+        toast.error('Backend server not running! Using demo mode.');
+        
+        // Demo login - works without backend
+        if (formData.email === 'admin@waterutility.com' && formData.password === 'admin123') {
+          // Manually set authentication state
+          useAuthStore.setState({
+            user: {
+              id: 'demo-user-1',
+              firstName: 'Admin',
+              lastName: 'User',
+              fullName: 'Admin User',
+              email: 'admin@waterutility.com',
+              role: 'admin',
+              employeeId: 'EMP001',
+              department: 'Administration'
+            },
+            token: 'demo-token-12345',
+            isAuthenticated: true
+          });
+          
+          toast.success('Demo login successful!');
+          navigate('/dashboard');
+        } else {
+          toast.error('Invalid credentials. Use: admin@waterutility.com / admin123');
+        }
+      } else {
+        toast.error(error.response?.data?.message || 'Login failed');
+      }
     } finally {
       setLoading(false);
     }
